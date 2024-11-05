@@ -18,7 +18,7 @@ import {
 import ImageUploadGrid from './ImagesUploadGrid'
 import { useImageUploadStore } from '@/app/_configs/store/useImagesUploadStore'
 import { getCookie } from 'cookies-next'
-import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
+import { ACCESS_TOKEN_COOKIE_NAME} from '@/app/_configs/constants/cookies'
 import { notifyCreateProductSuccess } from '../Notifications'
 import { MultilineTextField } from '@/app/_components/form/MultiplelineTextField'
 import LabelProvider from '@/app/_components/form/LabelProvider'

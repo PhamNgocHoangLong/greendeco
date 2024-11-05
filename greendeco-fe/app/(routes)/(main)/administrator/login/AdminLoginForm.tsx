@@ -8,7 +8,7 @@ import { LoginFormInputType, LoginSchema } from '@/app/_configs/schemas/authenti
 import { loginAdminAccount } from '@/app/_api/axios/adminAuthentication'
 import { notifyLoginFail, notifyLoginSuccess } from './Notifications'
 import { setCookie } from 'cookies-next'
-import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
+import { ACCESS_TOKEN_COOKIE_NAME} from '@/app/_configs/constants/cookies'
 import { AxiosError } from 'axios'
 import { ADMIN_QUERY_KEY } from '@/app/_configs/constants/queryKey'
 import { useRouter } from 'next/navigation'

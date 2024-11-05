@@ -10,7 +10,7 @@ import { ADMIN_QUERY_KEY, UseQueryKeys } from '@/app/_configs/constants/queryKey
 import { PencilSquareIcon, PlusCircleIcon, TrashIcon } from '@heroicons/react/24/solid'
 import Button from '@/app/_components/Button'
 import { getCookie } from 'cookies-next'
-import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
+import { ACCESS_TOKEN_COOKIE_NAME} from '@/app/_configs/constants/cookies'
 
 export default function VariantDisplay({
 	variantList,

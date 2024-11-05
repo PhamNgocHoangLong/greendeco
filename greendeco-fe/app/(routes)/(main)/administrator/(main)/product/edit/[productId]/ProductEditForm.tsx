@@ -15,7 +15,7 @@ import {
 	ADMINISTRATOR_ROUTE,
 } from '@/app/_configs/constants/variables'
 import { getCookie } from 'cookies-next'
-import { ADMIN_ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
+import { ACCESS_TOKEN_COOKIE_NAME} from '@/app/_configs/constants/cookies'
 import { updateProduct } from '@/app/_api/axios/admin/product'
 import { ProductData } from '@/app/_api/axios/product'
 import EditImagesGrid from './EditImagesGrid'
