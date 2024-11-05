@@ -34,12 +34,13 @@ type CreateUser struct {
 }
 
 type UserLogin struct {
-	Email       string `json:"email" validate:"required,email,lte=150"`
-	Password   string `json:"password" validate:"required,lte=50,gte=8"`
+	Email    string `json:"email" validate:"required,email,lte=150"`
+	Password string `json:"password" validate:"required,lte=50,gte=8"`
 }
 
 type UserToken struct {
 	AccessToken string `json:"access_Token"`
+	User        User   `json:"user"`
 }
 
 type EmailResponse struct {

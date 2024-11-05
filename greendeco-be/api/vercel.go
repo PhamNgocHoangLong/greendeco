@@ -8,7 +8,6 @@ import (
 	"greendeco-be/pkg/routes"
 	"greendeco-be/pkg/validators"
 	"greendeco-be/platform/database"
-	"greendeco-be/platform/storage"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/adaptor"
@@ -29,10 +28,6 @@ func handler() http.HandlerFunc {
 	}
 
 	if err := database.ConnectDB(); err != nil {
-		log.Panic(err)
-	}
-
-	if err := storage.ConnectStorage(); err != nil {
 		log.Panic(err)
 	}
 
