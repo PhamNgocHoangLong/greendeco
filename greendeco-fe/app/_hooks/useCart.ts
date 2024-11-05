@@ -66,12 +66,12 @@ export function useCartQuery() {
 	const router = useRouter()
 
 	//NOTE: Handle getCartId - if there isn't any cart -> create new one
-	const handleGetCartId = async (accessToken: AccessTokenType) => {
-		return await getCartInfoFromUser(accessToken)
+	const handleGetCartId = async () => {
+		return await getCartInfoFromUser()
 			.then((data) => data.items.id)
 			.catch((e: AxiosError) => {
 				if (e.response?.status === NOT_FOUND_STATUS) {
-					return createNewCart(accessToken).then((newCartId) => newCartId.id)
+					return createNewCart().then((newCartId) => newCartId.id)
 				}
 			})
 			.then((cartId) => {
@@ -84,10 +84,9 @@ export function useCartQuery() {
 	}
 
 	const getCartListWithFullDetail = async () => {
-		const accessToken = getCookie(ACCESS_TOKEN_COOKIE_NAME)
-		return await handleGetCartId(accessToken)
+		return await handleGetCartId()
 			.then((cartId) => {
-				if (cartId) return getCartItemListFromCartId(cartId, accessToken)
+				if (cartId) return getCartItemListFromCartId(cartId)
 			})
 			.then((cartListWithoutVariantInfo) => {
 				if (cartListWithoutVariantInfo) {

@@ -1,75 +1,68 @@
 'use client'
-
-import Image from 'next/image'
-import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion'
-import { UserProfileResponseData, getUserProfile } from '@/app/_api/axios/user'
 import { ACCESS_TOKEN_COOKIE_NAME } from '@/app/_configs/constants/cookies'
 import { UseQueryKeys } from '@/app/_configs/constants/queryKey'
-import { ArrowLeftOnRectangleIcon, ChevronDownIcon, Cog8ToothIcon } from '@heroicons/react/24/solid'
-import { isError, useQuery, useQueryClient } from '@tanstack/react-query'
-import { deleteCookie, getCookie } from 'cookies-next'
-import Button from '../Button'
-import { useRouter } from 'next/navigation'
-import { DEFAULT_AVATAR } from '@/app/_configs/constants/images'
-import React, { useRef, useState } from 'react'
-import clsx from 'clsx'
-import useClickOutside from '@/app/_hooks/useClickOutside'
 import { useAppContext } from '@/app/_configs/store/useAppContext'
-import { User } from '@/app/_types/user.type'
-
-export default function AuthenticationHandler() {
+import useClickOutside from '@/app/_hooks/useClickOutside'
+import { ArrowLeftOnRectangleIcon, Cog8ToothIcon, UserCircleIcon } from '@heroicons/react/24/solid'
+import { useQueryClient } from '@tanstack/react-query'
+import clsx from 'clsx'
+import { deleteCookie } from 'cookies-next'
+import { motion, AnimatePresence, useMotionValueEvent, useScroll } from 'framer-motion'
+import { useRouter } from 'next/navigation'
+import { useRef, useState } from 'react'
+export default function AuthenticationDisplayButton() {
+	// return (
+	// 	<div className='relative'>
+	// 		<button className='group rounded-xl border-[1px] border-primary-5555-40 bg-primary-5555-20/40 px-[8px] py-[4px] text-primary-625 transition duration-75 ease-in hover:bg-primary-625 hover:text-neutral-gray-1'>
+	// 			<UserCircleIcon className='aspect-square h-[24px] ' />
+	// 		</button>
+	// 	</div>
+	// )
 	const router = useRouter()
-
 	const { user } = useAppContext()
-
 	return (
-		<div className='hidden h-full w-[220px] rounded-[8px] bg-primary-625 shadow-18 md:block'>
-			{user && <UserSettingMenu user={user} />}
+		<div className='block md:hidden'>
+			{user && <UserSettingMenu />}
 			{!user && (
-				<Button
-					className='h-full w-full'
+				<button
 					onClick={() => router.push('/login')}
+					className='group rounded-xl border-[1px] border-primary-5555-40 bg-primary-5555-20/40 px-[8px] py-[4px] text-primary-625 transition duration-75 ease-in hover:bg-primary-625 hover:text-neutral-gray-1'
 				>
-					Login
-				</Button>
+					<UserCircleIcon className='aspect-square h-[24px] ' />
+				</button>
 			)}
 		</div>
 	)
 }
-
-function UserSettingMenu({ user }: { user: User }) {
+function UserSettingMenu() {
 	const [isOpen, setIsOpen] = useState(false)
 	const queryClient = useQueryClient()
 	const settingMenuRef = useRef<any>()
-
 	useClickOutside(settingMenuRef, () => {
 		setIsOpen(false)
 	})
 	const router = useRouter()
-
 	const handleLogOut = () => {
 		deleteCookie(ACCESS_TOKEN_COOKIE_NAME)
 		queryClient.removeQueries([UseQueryKeys.User])
 		router.push('/login')
 	}
-
 	const { scrollY } = useScroll()
-
 	useMotionValueEvent(scrollY, 'change', (latestWindowY) => {
 		const previousWindowY = scrollY.getPrevious()
 		if (latestWindowY > previousWindowY && latestWindowY > 90) {
 			setIsOpen(false)
 		}
 	})
-
 	return (
 		<div
 			ref={settingMenuRef}
 			onClick={() => setIsOpen(!isOpen)}
 			className='relative h-full w-full'
 		>
-			<MenuButton {...user} />
-
+			<button className='group rounded-xl border-[1px] border-primary-5555-40 bg-primary-5555-20/40 px-[8px] py-[4px] text-primary-625 transition duration-75 ease-in hover:bg-primary-625 hover:text-neutral-gray-1'>
+				<UserCircleIcon className='aspect-square h-[24px] ' />
+			</button>
 			<AnimatePresence>
 				{isOpen && (
 					<motion.ul
@@ -83,7 +76,7 @@ function UserSettingMenu({ user }: { user: User }) {
 							translateY: '-16px',
 						}}
 						transition={{ ease: 'easeInOut', duration: 0.2 }}
-						className='absolute inset-x-0 top-[calc(100%+8px)] z-30 rounded-[8px] border-[1px] border-primary-5555-40 bg-white p-compact'
+						className='absolute -left-60 right-0 top-[calc(100%+8px)] z-30 rounded-[8px] border-[1px] border-primary-5555-40 bg-white p-compact md:inset-x-0'
 					>
 						<MenuItem onClick={() => router.push('/user/setting/profile')}>
 							<div className='flex h-full w-full items-center gap-compact'>
@@ -103,27 +96,6 @@ function UserSettingMenu({ user }: { user: User }) {
 		</div>
 	)
 }
-
-function MenuButton({ avatar, firstName, lastName }: UserProfileResponseData) {
-	return (
-		<span className='flex h-full max-w-full cursor-pointer items-center justify-center gap-compact  px-cozy py-[12px] '>
-			<span className='aspect-square h-full overflow-hidden rounded-[100%]'>
-				<Image
-					width={0}
-					height={0}
-					sizes='100vw'
-					src={avatar ? avatar : DEFAULT_AVATAR}
-					alt='user avatar'
-				></Image>
-			</span>
-			<span className='flex-1 truncate text-body-md font-semi-bold text-white'>
-				{firstName} {lastName}
-			</span>
-			<ChevronDownIcon className='aspect-square h-[24px] text-white' />
-		</span>
-	)
-}
-
 function MenuItem({
 	onClick,
 	children,
